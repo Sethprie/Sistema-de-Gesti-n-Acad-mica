@@ -1,11 +1,11 @@
 <?php
 // index.php
 
-/*session_start();
-if(isset($_SESSION['usuario_id'])) {
-    header("Location: perfil.php");
-    exit();
-}*/
+//session_start();
+//if(isset($_SESSION['usuario_id'])) {
+//    header("Location: perfil.php");
+//    exit();
+//}
 
 require_once 'conexion.php';
 
@@ -21,7 +21,7 @@ function login ($prepstate, $isprofe)
     $usuario = $stmt->fetch();
 
     if ($usuario && ((strcmp($contrasena, $usuario['contrasena']) == 0)) /*password_verify($contrasena, $usuario['contrasena'])*/) {
-        //$_SESSION['usuario_id'] = $usuario['id'];
+        $_SESSION['usuario_id'] = $usuario['id'];
         if(profe)
             header("Location: perfilprofe.php");
         else
