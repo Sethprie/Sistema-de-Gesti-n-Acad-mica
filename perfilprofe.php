@@ -84,5 +84,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </form>
         <a href="perfil.php?logout=1" class="logout">Cerrar Sesión</a>
     </div>
+    <?php include('footer.html'); ?>
 </body>
 </html>
