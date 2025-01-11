@@ -12,18 +12,20 @@ if(isset($_SESSION['usuario_id'])) {
 
 require_once 'conexion.php';
 
-$error = '';
+$error = ''; // Variable de error
 
 function login ($prepstate, $isprofe)
 {
+    global $pdo; // Asegurarse de que la variable $pdo esté accesible dentro de la función
+
     $correo = filter_input(INPUT_POST, 'correo', FILTER_SANITIZE_EMAIL);
     $contrasena = $_POST['contrasena'];
 
-    $stmt = $pdo->prepare("SELECT id, contrasena FROM estudiantes WHERE correo = ?");
+    $stmt = $pdo->prepare($prepstate);
     $stmt->execute([$correo]);
     $usuario = $stmt->fetch();
 
-    if ($usuario && ((strcmp($contrasena, $usuario['contrasena']) == 0)) /*password_verify($contrasena, $usuario['contrasena'])*/) {
+    if ($usuario && ((strcmp($contrasena, $usuario['contrasena']) == 0))) {
         $_SESSION['usuario_id'] = $usuario['id'];
         $_SESSION['profe'] = $isprofe;
         if($isprofe)
@@ -32,19 +34,19 @@ function login ($prepstate, $isprofe)
             header("Location: perfil.php");
         exit();
     }
-    else if (strlen($correo) && strlen($contrasena))
-    {
-        $error = "Credenciales incorrectas";
+    else if (strlen($correo) && strlen($contrasena)) {
+        return "Credenciales incorrectas"; // Devolver el error
     }
-    else
-    {
-        $error = "Ambos campos requeridos";
+    else {
+        return "Ambos campos requeridos"; // Devolver el error
     }
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    login("SELECT id, contrasena FROM estudiantes WHERE correo = ?", false);
-    login("SELECT id, contrasena FROM profesor WHERE correo = ?", true);
+    $error = login("SELECT id, contrasena FROM estudiantes WHERE correo = ?", false);
+    if (!$error) {
+        $error = login("SELECT id, contrasena FROM profesor WHERE correo = ?", true);
+    }
 }
 ?>
 
