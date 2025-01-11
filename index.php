@@ -34,6 +34,7 @@ function login($prepstate, $isprofe)
         else
             header("Location: perfil.php");
         exit();
+        return "asd";
     }
     return null; // No hay error, pero el correo no coincide
 }
@@ -42,14 +43,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $error = login("SELECT id, contrasena FROM estudiantes WHERE correo = ?", false);
 
     // Si no encontró al usuario en la tabla de estudiantes, busca en la tabla de profesores
-    if (!$error) {
+    if ($error == null) {
         $error = login("SELECT id, contrasena FROM profesor WHERE correo = ?", true);
     }
 
     // Si no se encontró el correo ni en estudiantes ni en profesores
-    if (!$error && (strlen($_POST['correo']) > 0 && strlen($_POST['contrasena']) > 0)) {
+    if (!$error && (strlen($_POST['correo']) != 0 && strlen($_POST['contrasena']) != 0)) {
         $error = "Credenciales incorrectas"; // Mostrar un error en caso de no encontrar el usuario en ambas tablas
-    } elseif (strlen($_POST['correo']) == 0 || strlen($_POST['contrasena']) == 0) {
+    } else {
         $error = "Ambos campos son requeridos"; // Mostrar un error si algún campo está vacío
     }
 }
