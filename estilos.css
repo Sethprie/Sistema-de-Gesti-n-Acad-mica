@@ -10,6 +10,7 @@ body {
     background-size: cover; /* Escala la imagen para que cubra toda la pantalla */
     background-repeat: no-repeat; /* Evita que la imagen se repita */
     background-attachment: fixed; /* Mantiene la imagen fija mientras se desplaza */
+    filter: blur(8px);
 }
 
 .container {
