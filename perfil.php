@@ -2,7 +2,16 @@
 // perfil.php
 
 session_start();
-if(!isset($_SESSION['usuario_id'])) {
+
+// Manejar el logout
+if (isset($_GET['logout']) && $_GET['logout'] == '1') {
+    session_unset();  // Elimina todas las variables de sesión
+    session_destroy(); // Destruye la sesión actual
+    header("Location: index.php"); // Redirige al usuario al inicio de sesión
+    exit();
+}
+
+if (!isset($_SESSION['usuario_id'])) {
     header("Location: index.php");
     exit();
 }
@@ -44,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <div class="container">
         <h1>Perfil del Estudiante</h1>
         <?php if ($mensaje): ?>
-            <p class="mensaje"><?php echo $mensaje; ?></p>
+            <p class="mensaje"><?php echo htmlspecialchars($mensaje); ?></p>
         <?php endif; ?>
         <form action="" method="post">
             <div class="form-group">
@@ -73,7 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </div>
             <button type="submit">Actualizar Información</button>
         </form>
-        <a href="index.php?logout=1" class="logout">Cerrar Sesión</a>
+        <a href="perfil.php?logout=1" class="logout">Cerrar Sesión</a>
     </div>
 </body>
 </html>
