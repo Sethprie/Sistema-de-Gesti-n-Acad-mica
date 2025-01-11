@@ -3,8 +3,8 @@
 
 $host = 'localhost';
 $db   = 'gestion_academica';
-$user = 'tu_usuario';
-$pass = 'tu_contraseña';
+$user = 'root';
+$pass = '';
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$db;charset=utf8", $user, $pass);
