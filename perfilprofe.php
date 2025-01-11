@@ -27,14 +27,12 @@ $mensaje = '';
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nombre = filter_input(INPUT_POST, 'nombre', FILTER_SANITIZE_STRING);
     $apellido = filter_input(INPUT_POST, 'apellido', FILTER_SANITIZE_STRING);
-    $carrera = filter_input(INPUT_POST, 'carrera', FILTER_SANITIZE_STRING);
 
-    $stmt = $pdo->prepare("UPDATE estudiantes SET nombre = ?, apellido = ?, carrera = ? WHERE id = ?");
+    $stmt = $pdo->prepare("UPDATE estudiantes SET nombre = ?, apellido = ?, WHERE id = ?");
     if ($stmt->execute([$nombre, $apellido, $carrera, $_SESSION['usuario_id']])) {
         $mensaje = "Información actualizada correctamente";
         $estudiante['nombre'] = $nombre;
         $estudiante['apellido'] = $apellido;
-        $estudiante['carrera'] = $carrera;
     } else {
         $mensaje = "Error al actualizar la información";
     }
@@ -65,20 +63,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <input type="text" id="apellido" name="apellido" value="<?php echo htmlspecialchars($estudiante['apellido']); ?>" required>
             </div>
             <div class="form-group">
-                <label for="matricula">Matrícula:</label>
-                <input type="text" id="matricula" value="<?php echo htmlspecialchars($estudiante['matricula']); ?>" readonly>
-            </div>
-            <div class="form-group">
-                <label for="carrera">Carrera:</label>
-                <input type="text" id="carrera" name="carrera" value="<?php echo htmlspecialchars($estudiante['carrera']); ?>" required>
-            </div>
-            <div class="form-group">
                 <label for="correo">Correo Electrónico:</label>
                 <input type="email" id="correo" value="<?php echo htmlspecialchars($estudiante['correo']); ?>" readonly>
-            </div>
-            <div class="form-group">
-                <label for="promedio">Promedio Académico:</label>
-                <input type="text" id="promedio" value="<?php echo number_format($estudiante['promedio'], 2); ?>" readonly>
             </div>
             <button type="submit">Actualizar Información</button>
         </form>
