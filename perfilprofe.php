@@ -18,7 +18,7 @@ if (!isset($_SESSION['usuario_id'])) {
 
 require_once 'conexion.php';
 
-$stmt = $pdo->prepare("SELECT * FROM estudiantes WHERE id = ?");
+$stmt = $pdo->prepare("SELECT * FROM profesor WHERE id = ?");
 $stmt->execute([$_SESSION['usuario_id']]);
 $estudiante = $stmt->fetch();
 
@@ -28,8 +28,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nombre = filter_input(INPUT_POST, 'nombre', FILTER_SANITIZE_STRING);
     $apellido = filter_input(INPUT_POST, 'apellido', FILTER_SANITIZE_STRING);
 
-    $stmt = $pdo->prepare("UPDATE estudiantes SET nombre = ?, apellido = ?, WHERE id = ?");
-    if ($stmt->execute([$nombre, $apellido, $carrera, $_SESSION['usuario_id']])) {
+    $stmt = $pdo->prepare("UPDATE profesor SET nombre = ?, apellido = ?, WHERE id = ?");
+    if ($stmt->execute([$nombre, $apellido, $_SESSION['usuario_id']])) {
         $mensaje = "Información actualizada correctamente";
         $estudiante['nombre'] = $nombre;
         $estudiante['apellido'] = $apellido;
