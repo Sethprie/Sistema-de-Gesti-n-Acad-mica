@@ -2,11 +2,12 @@
 // index.php
 
 session_start();
-if(isset($_SESSION['usuario_id'])) {
-    if($_SESSION['profe'])
+if (isset($_SESSION['usuario_id'])) {
+    if ($_SESSION['profe']) {
         header("Location: perfilprofe.php");
-    else
+    } else {
         header("Location: perfil.php");
+    }
     exit();
 }
 
@@ -14,7 +15,7 @@ require_once 'conexion.php';
 
 $error = ''; // Variable de error
 
-function login ($prepstate, $isprofe)
+function login($prepstate, $isprofe)
 {
     global $pdo; // Asegurarse de que la variable $pdo esté accesible dentro de la función
 
@@ -25,27 +26,32 @@ function login ($prepstate, $isprofe)
     $stmt->execute([$correo]);
     $usuario = $stmt->fetch();
 
-    if ($usuario && ((strcmp($contrasena, $usuario['contrasena']) == 0))) {
+    if ($usuario && (strcmp($contrasena, $usuario['contrasena']) == 0)) {
         $_SESSION['usuario_id'] = $usuario['id'];
         $_SESSION['profe'] = $isprofe;
-        if($isprofe)
+        if ($isprofe)
             header("Location: perfilprofe.php");
         else
             header("Location: perfil.php");
         exit();
-        return "";
     }
-    else if (strlen($correo) && strlen($contrasena)) {
-        return "Credenciales incorrectas"; // Devolver el error
-    }
-    else {
-        return "Ambos campos requeridos"; // Devolver el error
-    }
+    return null; // No hay error, pero el correo no coincide
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $error = login("SELECT id, contrasena FROM estudiantes WHERE correo = ?", false);
-    $error = login("SELECT id, contrasena FROM profesor WHERE correo = ?", true);
+
+    // Si no encontró al usuario en la tabla de estudiantes, busca en la tabla de profesores
+    if (!$error) {
+        $error = login("SELECT id, contrasena FROM profesor WHERE correo = ?", true);
+    }
+
+    // Si no se encontró el correo ni en estudiantes ni en profesores
+    if (!$error && (strlen($_POST['correo']) > 0 && strlen($_POST['contrasena']) > 0)) {
+        $error = "Credenciales incorrectas"; // Mostrar un error en caso de no encontrar el usuario en ambas tablas
+    } elseif (strlen($_POST['correo']) == 0 || strlen($_POST['contrasena']) == 0) {
+        $error = "Ambos campos son requeridos"; // Mostrar un error si algún campo está vacío
+    }
 }
 ?>
 
