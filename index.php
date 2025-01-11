@@ -1,17 +1,18 @@
 <?php
 // index.php
 
-session_start();
+/*session_start();
 if(isset($_SESSION['usuario_id'])) {
     header("Location: perfil.php");
     exit();
-}
+}*/
 
 require_once 'conexion.php';
 
 $error = '';
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+function login ($prepstate, $isprofe)
+{
     $correo = filter_input(INPUT_POST, 'correo', FILTER_SANITIZE_EMAIL);
     $contrasena = $_POST['contrasena'];
 
@@ -20,8 +21,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $usuario = $stmt->fetch();
 
     if ($usuario && ((strcmp($contrasena, $usuario['contrasena']) == 0)) /*password_verify($contrasena, $usuario['contrasena'])*/) {
-        $_SESSION['usuario_id'] = $usuario['id'];
-        header("Location: perfil.php");
+        //$_SESSION['usuario_id'] = $usuario['id'];
+        if(profe)
+            header("Location: perfilprofe.php");
+        else
+            header("Location: perfil.php");
         exit();
     }
     else if (strlen($correo) && strlen($contrasena))
@@ -32,6 +36,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     {
         $error = "Ambos campos requeridos";
     }
+}
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    login("SELECT id, contrasena FROM estudiantes WHERE correo = ?", false);
+    login("SELECT id, contrasena FROM profesor WHERE correo = ?", true);
 }
 ?>
 
@@ -62,5 +71,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <button type="submit">Iniciar Sesión</button>
         </form>
     </div>
+    <?php include('footer.html'); ?>
 </body>
 </html>
