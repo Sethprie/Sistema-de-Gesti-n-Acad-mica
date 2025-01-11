@@ -23,8 +23,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $_SESSION['usuario_id'] = $usuario['id'];
         header("Location: perfil.php");
         exit();
-    } else {
+    }
+    else if (strlen($correo) && strlen($contrasena))
+    {
         $error = $usuario['contrasena']; //"Credenciales incorrectas";
+    }
+    else
+    {
+        $error = "Ambos campos requeridos";
     }
 }
 ?>
