@@ -44,7 +44,7 @@ function login ($prepstate, $isprofe)
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $error = login("SELECT id, contrasena FROM estudiantes WHERE correo = ?", false);
-    if (!$error) {
+    if ($error) {
         $error = login("SELECT id, contrasena FROM profesor WHERE correo = ?", true);
     }
 }
