@@ -5,6 +5,11 @@ body {
     background-color: #f0f0f0;
     margin: 0;
     padding: 0;
+
+    background-image: url('https://i.imgur.com/iqfHnsT.png'); /* Cambia a la ruta de tu imagen */
+    background-size: cover; /* Escala la imagen para que cubra toda la pantalla */
+    background-repeat: no-repeat; /* Evita que la imagen se repita */
+    background-attachment: fixed; /* Mantiene la imagen fija mientras se desplaza */
 }
 
 .container {
