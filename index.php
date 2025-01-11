@@ -33,6 +33,7 @@ function login ($prepstate, $isprofe)
         else
             header("Location: perfil.php");
         exit();
+        return "";
     }
     else if (strlen($correo) && strlen($contrasena)) {
         return "Credenciales incorrectas"; // Devolver el error
@@ -44,9 +45,7 @@ function login ($prepstate, $isprofe)
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $error = login("SELECT id, contrasena FROM estudiantes WHERE correo = ?", false);
-    if ($error) {
-        $error = login("SELECT id, contrasena FROM profesor WHERE correo = ?", true);
-    }
+    $error = login("SELECT id, contrasena FROM profesor WHERE correo = ?", true);
 }
 ?>
 
