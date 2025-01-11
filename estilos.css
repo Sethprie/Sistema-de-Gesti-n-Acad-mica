@@ -5,11 +5,11 @@ body {
     background-color: #f0f0f0;
     margin: 0;
     padding: 0;
-
     background-image: url('IMG/bck_iusfv2.png'); /* Cambia a la ruta de tu imagen */
     background-size: cover; /* Escala la imagen para que cubra toda la pantalla */
     background-repeat: no-repeat; /* Evita que la imagen se repita */
     background-attachment: fixed; /* Mantiene la imagen fija mientras se desplaza */
+    height: 100%; /* Asegura que el cuerpo cubra toda la altura de la pantalla */
 }
 
 .container {
@@ -19,7 +19,7 @@ body {
     padding: 20px;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    margin-bottom: 100px; /* Espacio adicional para evitar que el footer se solape */
+    margin-bottom: 80px; /* Reducido para evitar espacio excesivo */
 }
 
 h1 {
@@ -94,7 +94,8 @@ footer {
     color: #fff;
     padding: 20px 0;
     text-align: center;
-    position: relative; /* Cambiado de fixed a relative */
+    position: fixed; /* Fijado al pie de la página */
+    bottom: 0; /* Asegura que esté en la parte inferior */
     width: 100%;
     box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
 }
